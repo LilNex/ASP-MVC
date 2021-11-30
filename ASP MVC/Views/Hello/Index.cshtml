@@ -1,4 +1,5 @@
 ﻿@model ASP_MVC.Models.Visiteur
+@using ASP_MVC.Models
 @{
     ViewBag.Title = "Home Page";
 }
@@ -11,11 +12,35 @@
 </div>
 
 <div class="row">
+    
     @using (Html.BeginForm())
     {
+
         <h1>Hello World MVC</h1>
         @Html.TextBox("nom_visiteur", Model.nom)
         <input type="submit" value="Valider" />
-        <p>@ViewData["message"]</p>
+        <p>@ViewData["message"]</p> <br />
+        @ViewBag.data
+        <table class="table">
+             <thead>
+                <tr>
+                   <th scope="col">#</th>
+                    <th scope="col">char 1</th>
+                    <th scope="col">char 2</th>
+                   <th scope="col">char 3</th>
+                </tr>
+             </thead>
+             <tbody>
+                 @{ foreach (Visiteur item in Visiteur.lst)
+                     {  
+                         <tr>
+                            <td scope="col">@item.nom[0]</td>
+                            <td scope="col">@item.nom[1]</td>
+                            <td scope="col">@item.nom[2]</td>
+                         </tr>
+                     }
+                 }
+             </tbody>
+            </table>
     }
 </div>
