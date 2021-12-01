@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="aspnetzeroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AbpPermissions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatorUserId" Type="bigint" />
+          <Property Name="Discriminator" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsGranted" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="TenantId" Type="int" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="UserId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="AbpUserLogins">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TenantId" Type="int" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbpUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="AuthenticationSource" Type="nvarchar" MaxLength="64" />
+          <Property Name="ConcurrencyStamp" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreationTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatorUserId" Type="bigint" />
+          <Property Name="DeleterUserId" Type="bigint" />
+          <Property Name="DeletionTime" Type="datetime2" Precision="7" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="EmailConfirmationCode" Type="nvarchar" MaxLength="328" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsEmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="IsLockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="IsPhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="IsTwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LastModificationTime" Type="datetime2" Precision="7" />
+          <Property Name="LastModifierUserId" Type="bigint" />
+          <Property Name="LockoutEndDateUtc" Type="datetime2" Precision="7" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="NormalizedEmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="NormalizedUserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordResetCode" Type="nvarchar" MaxLength="328" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="32" />
+          <Property Name="ProfilePictureId" Type="uniqueidentifier" />
+          <Property Name="SecurityStamp" Type="nvarchar" MaxLength="128" />
+          <Property Name="ShouldChangePasswordOnNextLogin" Type="bit" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="TenantId" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="SignInToken" Type="nvarchar(max)" />
+          <Property Name="SignInTokenExpireTimeUtc" Type="datetime2" Precision="7" />
+          <Property Name="GoogleAuthenticatorKey" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_AbpPermissions_AbpUsers_UserId">
+          <End Role="AbpUsers" Type="Self.AbpUsers" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AbpPermissions" Type="Self.AbpPermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpPermissions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUserLogins_AbpUsers_UserId">
+          <End Role="AbpUsers" Type="Self.AbpUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AbpUserLogins" Type="Self.AbpUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_CreatorUserId">
+          <End Role="AbpUsers" Type="Self.AbpUsers" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="CreatorUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_DeleterUserId">
+          <End Role="AbpUsers" Type="Self.AbpUsers" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="DeleterUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_LastModifierUserId">
+          <End Role="AbpUsers" Type="Self.AbpUsers" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="LastModifierUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="aspnetzeroModelStoreContainer">
+          <EntitySet Name="AbpPermissions" EntityType="Self.AbpPermissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbpUserLogins" EntityType="Self.AbpUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbpUsers" EntityType="Self.AbpUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AbpPermissions_AbpUsers_UserId" Association="Self.FK_AbpPermissions_AbpUsers_UserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpPermissions" EntitySet="AbpPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUserLogins_AbpUsers_UserId" Association="Self.FK_AbpUserLogins_AbpUsers_UserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUserLogins" EntitySet="AbpUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_CreatorUserId" Association="Self.FK_AbpUsers_AbpUsers_CreatorUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_DeleterUserId" Association="Self.FK_AbpUsers_AbpUsers_DeleterUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_LastModifierUserId" Association="Self.FK_AbpUsers_AbpUsers_LastModifierUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="aspnetzeroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AbpPermission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatorUserId" Type="Int64" />
+          <Property Name="Discriminator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsGranted" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TenantId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="UserId" Type="Int64" />
+          <NavigationProperty Name="AbpUser" Relationship="Self.FK_AbpPermissions_AbpUsers_UserId" FromRole="AbpPermissions" ToRole="AbpUsers" />
+        </EntityType>
+        <EntityType Name="AbpUserLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TenantId" Type="Int32" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AbpUser" Relationship="Self.FK_AbpUserLogins_AbpUsers_UserId" FromRole="AbpUserLogins" ToRole="AbpUsers" />
+        </EntityType>
+        <EntityType Name="AbpUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="AuthenticationSource" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ConcurrencyStamp" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatorUserId" Type="Int64" />
+          <Property Name="DeleterUserId" Type="Int64" />
+          <Property Name="DeletionTime" Type="DateTime" Precision="7" />
+          <Property Name="EmailAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailConfirmationCode" Type="String" MaxLength="328" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsEmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="IsLockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="IsPhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="IsTwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LastModificationTime" Type="DateTime" Precision="7" />
+          <Property Name="LastModifierUserId" Type="Int64" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="7" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NormalizedEmailAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NormalizedUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordResetCode" Type="String" MaxLength="328" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePictureId" Type="Guid" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ShouldChangePasswordOnNextLogin" Type="Boolean" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TenantId" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SignInToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SignInTokenExpireTimeUtc" Type="DateTime" Precision="7" />
+          <Property Name="GoogleAuthenticatorKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AbpPermissions" Relationship="Self.FK_AbpPermissions_AbpUsers_UserId" FromRole="AbpUsers" ToRole="AbpPermissions" />
+          <NavigationProperty Name="AbpUserLogins" Relationship="Self.FK_AbpUserLogins_AbpUsers_UserId" FromRole="AbpUsers" ToRole="AbpUserLogins" />
+          <NavigationProperty Name="AbpUsers1" Relationship="Self.FK_AbpUsers_AbpUsers_CreatorUserId" FromRole="AbpUsers" ToRole="AbpUsers1" />
+          <NavigationProperty Name="AbpUser1" Relationship="Self.FK_AbpUsers_AbpUsers_CreatorUserId" FromRole="AbpUsers1" ToRole="AbpUsers" />
+          <NavigationProperty Name="AbpUsers11" Relationship="Self.FK_AbpUsers_AbpUsers_DeleterUserId" FromRole="AbpUsers" ToRole="AbpUsers1" />
+          <NavigationProperty Name="AbpUser2" Relationship="Self.FK_AbpUsers_AbpUsers_DeleterUserId" FromRole="AbpUsers1" ToRole="AbpUsers" />
+          <NavigationProperty Name="AbpUsers12" Relationship="Self.FK_AbpUsers_AbpUsers_LastModifierUserId" FromRole="AbpUsers" ToRole="AbpUsers1" />
+          <NavigationProperty Name="AbpUser3" Relationship="Self.FK_AbpUsers_AbpUsers_LastModifierUserId" FromRole="AbpUsers1" ToRole="AbpUsers" />
+        </EntityType>
+        <Association Name="FK_AbpPermissions_AbpUsers_UserId">
+          <End Role="AbpUsers" Type="Self.AbpUser" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AbpPermissions" Type="Self.AbpPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpPermissions">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUserLogins_AbpUsers_UserId">
+          <End Role="AbpUsers" Type="Self.AbpUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AbpUserLogins" Type="Self.AbpUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_CreatorUserId">
+          <End Role="AbpUsers" Type="Self.AbpUser" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="CreatorUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_DeleterUserId">
+          <End Role="AbpUsers" Type="Self.AbpUser" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="DeleterUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AbpUsers_AbpUsers_LastModifierUserId">
+          <End Role="AbpUsers" Type="Self.AbpUser" Multiplicity="0..1" />
+          <End Role="AbpUsers1" Type="Self.AbpUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AbpUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AbpUsers1">
+              <PropertyRef Name="LastModifierUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="aspnetzeroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AbpPermissions" EntityType="Self.AbpPermission" />
+          <EntitySet Name="AbpUserLogins" EntityType="Self.AbpUserLogin" />
+          <EntitySet Name="AbpUsers" EntityType="Self.AbpUser" />
+          <AssociationSet Name="FK_AbpPermissions_AbpUsers_UserId" Association="Self.FK_AbpPermissions_AbpUsers_UserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpPermissions" EntitySet="AbpPermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUserLogins_AbpUsers_UserId" Association="Self.FK_AbpUserLogins_AbpUsers_UserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUserLogins" EntitySet="AbpUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_CreatorUserId" Association="Self.FK_AbpUsers_AbpUsers_CreatorUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_DeleterUserId" Association="Self.FK_AbpUsers_AbpUsers_DeleterUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AbpUsers_AbpUsers_LastModifierUserId" Association="Self.FK_AbpUsers_AbpUsers_LastModifierUserId">
+            <End Role="AbpUsers" EntitySet="AbpUsers" />
+            <End Role="AbpUsers1" EntitySet="AbpUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="aspnetzeroModelStoreContainer" CdmEntityContainer="aspnetzeroEntities">
+          <EntitySetMapping Name="AbpPermissions">
+            <EntityTypeMapping TypeName="aspnetzeroModel.AbpPermission">
+              <MappingFragment StoreEntitySet="AbpPermissions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="CreatorUserId" ColumnName="CreatorUserId" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="IsGranted" ColumnName="IsGranted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbpUserLogins">
+            <EntityTypeMapping TypeName="aspnetzeroModel.AbpUserLogin">
+              <MappingFragment StoreEntitySet="AbpUserLogins">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbpUsers">
+            <EntityTypeMapping TypeName="aspnetzeroModel.AbpUser">
+              <MappingFragment StoreEntitySet="AbpUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="AuthenticationSource" ColumnName="AuthenticationSource" />
+                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="CreatorUserId" ColumnName="CreatorUserId" />
+                <ScalarProperty Name="DeleterUserId" ColumnName="DeleterUserId" />
+                <ScalarProperty Name="DeletionTime" ColumnName="DeletionTime" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="EmailConfirmationCode" ColumnName="EmailConfirmationCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsEmailConfirmed" ColumnName="IsEmailConfirmed" />
+                <ScalarProperty Name="IsLockoutEnabled" ColumnName="IsLockoutEnabled" />
+                <ScalarProperty Name="IsPhoneNumberConfirmed" ColumnName="IsPhoneNumberConfirmed" />
+                <ScalarProperty Name="IsTwoFactorEnabled" ColumnName="IsTwoFactorEnabled" />
+                <ScalarProperty Name="LastModificationTime" ColumnName="LastModificationTime" />
+                <ScalarProperty Name="LastModifierUserId" ColumnName="LastModifierUserId" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NormalizedEmailAddress" ColumnName="NormalizedEmailAddress" />
+                <ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordResetCode" ColumnName="PasswordResetCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ProfilePictureId" ColumnName="ProfilePictureId" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="ShouldChangePasswordOnNextLogin" ColumnName="ShouldChangePasswordOnNextLogin" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="SignInToken" ColumnName="SignInToken" />
+                <ScalarProperty Name="SignInTokenExpireTimeUtc" ColumnName="SignInTokenExpireTimeUtc" />
+                <ScalarProperty Name="GoogleAuthenticatorKey" ColumnName="GoogleAuthenticatorKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

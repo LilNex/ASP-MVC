@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6fecaaf5a43b4dfdb42b76ea5b57a263" Name="Diagram1">
+        <EntityTypeShape EntityType="aspnetzeroModel.AbpPermission" Width="1.5" PointX="4.375" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="aspnetzeroModel.AbpUserLogin" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="aspnetzeroModel.AbpUser" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="aspnetzeroModel.FK_AbpPermissions_AbpUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="aspnetzeroModel.FK_AbpUserLogins_AbpUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="aspnetzeroModel.FK_AbpUsers_AbpUsers_CreatorUserId" ManuallyRouted="false" />
+        <AssociationConnector Association="aspnetzeroModel.FK_AbpUsers_AbpUsers_DeleterUserId" ManuallyRouted="false" />
+        <AssociationConnector Association="aspnetzeroModel.FK_AbpUsers_AbpUsers_LastModifierUserId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
